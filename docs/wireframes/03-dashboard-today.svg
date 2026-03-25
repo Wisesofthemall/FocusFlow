@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380" font-family="sans-serif" font-size="11">
+  <title>Wireframe  -  Dashboard Today</title>
+  <rect width="400" height="380" fill="#fafafa" stroke="#bbb"/>
+  <rect x="0" y="0" width="400" height="44" fill="#eee" stroke="#ccc"/>
+  <text x="16" y="28" font-weight="700" fill="#333">Today</text>
+  <text x="280" y="28" fill="#666" font-size="10">Nav: Tasks | Calendar</text>
+  <text x="16" y="64" font-weight="600" fill="#444">Today&apos;s tasks</text>
+  <rect x="16" y="72" width="368" height="56" fill="#fff" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="28" y="98" fill="#333">Read Ch. 5</text>
+  <text x="28" y="116" fill="#666" font-size="10">Due today  |  [ ] Done</text>
+  <rect x="16" y="136" width="368" height="40" fill="#fff9c4" stroke="#f9a825"/>
+  <text x="28" y="156" fill="#5d4037" font-size="10">Overdue: Quiz review (yesterday)</text>
+  <text x="16" y="200" font-weight="600" fill="#444">Upcoming (context)</text>
+  <rect x="16" y="208" width="368" height="44" fill="#fff" stroke="#999"/>
+  <text x="28" y="230" fill="#666" font-size="10">2:00 PM  -  Office hours (from calendar)</text>
+  <rect x="16" y="260" width="368" height="44" fill="#fff" stroke="#999"/>
+  <text x="28" y="282" fill="#666" font-size="10">4:30 PM  -  Study group</text>
+  <text x="16" y="330" fill="#888" font-size="10">Merged view: tasks due today + near-term events</text>
+  <text x="16" y="360" font-size="9" fill="#999">Figure 3  -  Dashboard (Today)</text>
+</svg>
