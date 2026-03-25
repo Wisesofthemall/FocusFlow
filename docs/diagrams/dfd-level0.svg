@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 220" font-family="system-ui, sans-serif" font-size="13">
+  <title>FocusFlow Level-0 Data Flow Diagram</title>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#333"/>
+    </marker>
+  </defs>
+  <rect x="20" y="70" width="80" height="44" rx="6" fill="#e8f4fc" stroke="#1565c0" stroke-width="2"/>
+  <text x="60" y="97" text-anchor="middle" fill="#0d47a1" font-weight="600">User</text>
+  <rect x="140" y="55" width="130" height="72" rx="8" fill="#fff8e1" stroke="#f57f17" stroke-width="2"/>
+  <text x="205" y="88" text-anchor="middle" fill="#e65100" font-weight="600">React</text>
+  <text x="205" y="108" text-anchor="middle" fill="#5d4037" font-size="11">Frontend</text>
+  <rect x="310" y="55" width="150" height="72" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="385" y="88" text-anchor="middle" fill="#1b5e20" font-weight="600">Spring Boot</text>
+  <text x="385" y="108" text-anchor="middle" fill="#33691e" font-size="11">REST API</text>
+  <path d="M100 92 L140 92" stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <text x="118" y="82" font-size="10" fill="#444">UI actions</text>
+  <path d="M270 92 L310 92" stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <text x="275" y="82" font-size="10" fill="#444">HTTPS / JSON</text>
+  <ellipse cx="535" cy="150" rx="88" ry="36" fill="#fce4ec" stroke="#c2185b" stroke-width="2"/>
+  <text x="535" y="145" text-anchor="middle" fill="#880e4f" font-weight="600">Database</text>
+  <text x="535" y="162" text-anchor="middle" fill="#6a1b9a" font-size="11">MySQL / PostgreSQL</text>
+  <path d="M460 110 L480 130 L500 130" stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <text x="455" y="128" font-size="10" fill="#444">read / write</text>
+  <rect x="660" y="55" width="160" height="72" rx="8" fill="#ede7f6" stroke="#5e35b1" stroke-width="2"/>
+  <text x="740" y="88" text-anchor="middle" fill="#4527a0" font-weight="600">Google Calendar</text>
+  <text x="740" y="108" text-anchor="middle" fill="#5e35b1" font-size="11">External API</text>
+  <path d="M460 92 L660 92" stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <text x="520" y="82" font-size="10" fill="#444">OAuth, events</text>
+  <path d="M385 55 L385 30 L205 30 L205 55" stroke="#1565c0" stroke-width="1.2" fill="none" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text x="280" y="24" text-anchor="middle" font-size="10" fill="#1565c0">JSON responses / dashboard data</text>
+</svg>
