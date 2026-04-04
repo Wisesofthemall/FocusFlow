@@ -1,0 +1,9 @@
+# Maven (backend)
+backend/target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+.DS_Store
