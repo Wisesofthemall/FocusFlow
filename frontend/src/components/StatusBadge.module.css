@@ -1,0 +1,36 @@
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.applied {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+.interviewing {
+  background: #fefce8;
+  color: #a16207;
+  border-color: #fde68a;
+}
+.offer {
+  background: #ecfdf5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+.rejected {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+.withdrawn {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #cbd5e1;
+}
