@@ -3,6 +3,7 @@ package com.blackcs.propath.web;
 import com.blackcs.propath.dto.CreateCalendarEventRequest;
 import com.blackcs.propath.dto.UpdateCalendarEventRequest;
 import com.blackcs.propath.model.CalendarEvent;
+import com.blackcs.propath.security.CurrentUserService;
 import com.blackcs.propath.service.CalendarEventService;
 import jakarta.validation.Valid;
 import java.time.Instant;
@@ -20,18 +21,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/calendar-events")
 public class CalendarEventController {
 
   private final CalendarEventService calendarEventService;
+  private final CurrentUserService currentUserService;
 
-  public CalendarEventController(CalendarEventService calendarEventService) {
+  public CalendarEventController(
+      CalendarEventService calendarEventService, CurrentUserService currentUserService) {
     this.calendarEventService = calendarEventService;
+    this.currentUserService = currentUserService;
   }
 
-  @PostMapping("/users/{userId}/calendar-events")
+  @PostMapping
   public ResponseEntity<CalendarEvent> create(
-      @PathVariable Long userId, @Valid @RequestBody CreateCalendarEventRequest body) {
+      @Valid @RequestBody CreateCalendarEventRequest body) {
+    Long userId = currentUserService.requireCurrentUserId();
     CalendarEvent created =
         calendarEventService.create(
             userId,
@@ -43,28 +48,30 @@ public class CalendarEventController {
     return ResponseEntity.status(HttpStatus.CREATED).body(created);
   }
 
-  @GetMapping("/calendar-events/{id}")
-  public ResponseEntity<CalendarEvent> getById(@PathVariable Long id) {
-    return calendarEventService
-        .findById(id)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
-  }
-
-  @GetMapping("/users/{userId}/calendar-events/between")
+  @GetMapping("/between")
   public ResponseEntity<List<CalendarEvent>> listBetween(
-      @PathVariable Long userId,
-      @RequestParam Instant start,
-      @RequestParam Instant end) {
-    return ResponseEntity.ok(
-        calendarEventService.listForUserBetween(userId, start, end));
+      @RequestParam Instant start, @RequestParam Instant end) {
+    Long userId = currentUserService.requireCurrentUserId();
+    return ResponseEntity.ok(calendarEventService.listForUserBetween(userId, start, end));
   }
 
-  @PutMapping("/calendar-events/{id}")
+  @GetMapping("/{id}")
+  public ResponseEntity<CalendarEvent> getById(@PathVariable Long id) {
+    Long userId = currentUserService.requireCurrentUserId();
+    CalendarEvent event =
+        calendarEventService
+            .findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Event not found"));
+    if (!event.getUser().getId().equals(userId)) {
+      throw new IllegalArgumentException("Event does not belong to this user");
+    }
+    return ResponseEntity.ok(event);
+  }
+
+  @PutMapping("/{id}")
   public ResponseEntity<CalendarEvent> update(
-      @PathVariable Long id,
-      @RequestParam Long userId,
-      @Valid @RequestBody UpdateCalendarEventRequest body) {
+      @PathVariable Long id, @Valid @RequestBody UpdateCalendarEventRequest body) {
+    Long userId = currentUserService.requireCurrentUserId();
     return ResponseEntity.ok(
         calendarEventService.update(
             id,
@@ -76,8 +83,9 @@ public class CalendarEventController {
             body.externalId()));
   }
 
-  @DeleteMapping("/calendar-events/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id, @RequestParam Long userId) {
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
+    Long userId = currentUserService.requireCurrentUserId();
     calendarEventService.delete(id, userId);
     return ResponseEntity.noContent().build();
   }
