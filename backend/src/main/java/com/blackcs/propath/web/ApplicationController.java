@@ -3,6 +3,7 @@ package com.blackcs.propath.web;
 import com.blackcs.propath.dto.CreateJobApplicationRequest;
 import com.blackcs.propath.dto.UpdateJobApplicationRequest;
 import com.blackcs.propath.model.JobApplication;
+import com.blackcs.propath.security.CurrentUserService;
 import com.blackcs.propath.service.ApplicationService;
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
@@ -20,18 +21,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/applications")
 public class ApplicationController {
 
   private final ApplicationService applicationService;
+  private final CurrentUserService currentUserService;
 
-  public ApplicationController(ApplicationService applicationService) {
+  public ApplicationController(
+      ApplicationService applicationService, CurrentUserService currentUserService) {
     this.applicationService = applicationService;
+    this.currentUserService = currentUserService;
   }
 
-  @PostMapping("/users/{userId}/applications")
+  @PostMapping
   public ResponseEntity<JobApplication> create(
-      @PathVariable Long userId, @Valid @RequestBody CreateJobApplicationRequest body) {
+      @Valid @RequestBody CreateJobApplicationRequest body) {
+    Long userId = currentUserService.requireCurrentUserId();
     JobApplication created =
         applicationService.create(
             userId,
@@ -43,33 +48,36 @@ public class ApplicationController {
     return ResponseEntity.status(HttpStatus.CREATED).body(created);
   }
 
-  @GetMapping("/applications/{id}")
-  public ResponseEntity<JobApplication> getById(@PathVariable Long id) {
-    return applicationService
-        .findById(id)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
-  }
-
-  @GetMapping("/users/{userId}/applications")
-  public ResponseEntity<List<JobApplication>> listForUser(@PathVariable Long userId) {
+  @GetMapping
+  public ResponseEntity<List<JobApplication>> list() {
+    Long userId = currentUserService.requireCurrentUserId();
     return ResponseEntity.ok(applicationService.listForUser(userId));
   }
 
-  @GetMapping("/users/{userId}/applications/due-between")
+  @GetMapping("/due-between")
   public ResponseEntity<List<JobApplication>> listDueBetween(
-      @PathVariable Long userId,
-      @RequestParam LocalDateTime start,
-      @RequestParam LocalDateTime end) {
-    return ResponseEntity.ok(
-        applicationService.listForUserDueBetween(userId, start, end));
+      @RequestParam LocalDateTime start, @RequestParam LocalDateTime end) {
+    Long userId = currentUserService.requireCurrentUserId();
+    return ResponseEntity.ok(applicationService.listForUserDueBetween(userId, start, end));
   }
 
-  @PutMapping("/applications/{id}")
+  @GetMapping("/{id}")
+  public ResponseEntity<JobApplication> getById(@PathVariable Long id) {
+    Long userId = currentUserService.requireCurrentUserId();
+    JobApplication app =
+        applicationService
+            .findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Application not found"));
+    if (!app.getUser().getId().equals(userId)) {
+      throw new IllegalArgumentException("Application does not belong to this user");
+    }
+    return ResponseEntity.ok(app);
+  }
+
+  @PutMapping("/{id}")
   public ResponseEntity<JobApplication> update(
-      @PathVariable Long id,
-      @RequestParam Long userId,
-      @Valid @RequestBody UpdateJobApplicationRequest body) {
+      @PathVariable Long id, @Valid @RequestBody UpdateJobApplicationRequest body) {
+    Long userId = currentUserService.requireCurrentUserId();
     return ResponseEntity.ok(
         applicationService.update(
             id,
@@ -81,8 +89,9 @@ public class ApplicationController {
             body.priority()));
   }
 
-  @DeleteMapping("/applications/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id, @RequestParam Long userId) {
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
+    Long userId = currentUserService.requireCurrentUserId();
     applicationService.delete(id, userId);
     return ResponseEntity.noContent().build();
   }
