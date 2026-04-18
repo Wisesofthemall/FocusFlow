@@ -1,6 +1,16 @@
 # Maven (backend)
 backend/target/
 
+# H2 file-based database (milestone 3)
+backend/data/
+backend/*.mv.db
+backend/*.trace.db
+
+# Node / Vite (frontend)
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+
 # IDE
 .idea/
 *.iml
