@@ -1,0 +1,100 @@
+.welcome {
+  margin-bottom: 1.75rem;
+}
+
+.welcomeHeading {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.welcomeSub {
+  color: var(--muted);
+  margin: 0.25rem 0 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.cardFill {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardLink {
+  color: var(--accent);
+  font-size: 0.85rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.cardLink:hover {
+  text-decoration: underline;
+}
+
+.sourceTag {
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.itemTitle {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.itemMeta {
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-top: 0.1rem;
+}
+
+.itemRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.itemDate {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.jobLink {
+  font-size: 0.85rem;
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.jobLink:hover {
+  text-decoration: underline;
+}
