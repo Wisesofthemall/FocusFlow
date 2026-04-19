@@ -31,6 +31,9 @@ client.interceptors.response.use(
 
 export function apiErrorMessage(err: unknown, fallback = 'Request failed'): string {
   if (axios.isAxiosError(err)) {
+    if (err.code === 'ERR_NETWORK' || (!err.response && err.request)) {
+      return `Cannot reach server at ${baseURL}. Is the backend running?`;
+    }
     const msg = err.response?.data?.message;
     if (typeof msg === 'string' && msg.length > 0) return msg;
     if (err.response?.status) return `${err.response.status} ${err.response.statusText || fallback}`;

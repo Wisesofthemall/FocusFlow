@@ -14,8 +14,8 @@ export function Navbar() {
   return (
     <nav className={styles.nav}>
       <Link to="/" className={styles.brand}>
-        <span className={styles.brandMark}>F</span>
-        FocusFlow
+        <span className={styles.brandMark}>P</span>
+        ProPath
       </Link>
       {token && (
         <div className={styles.links}>

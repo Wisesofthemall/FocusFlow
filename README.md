@@ -1,4 +1,4 @@
-# ProPath / FocusFlow
+# ProPath
 
 **Career preparation & professional development** — semester project built with React, Spring Boot, file-based H2, and a public jobs API.
 
@@ -9,6 +9,7 @@
 ## Milestone 3 — Frontend · Database · External API · Authentication
 
 Milestone 3 layers four capabilities on top of the Sprint-1 backend:
+
 1. **React frontend** (Vite + TypeScript) with five pages — Login, Register, Dashboard, Applications List (GET), and New Application (POST).
 2. **Persistent database** — file-based H2 at `backend/data/propath.mv.db`, survives restarts.
 3. **Spring Security + JWT** — stateless auth, Bearer tokens, ownership enforcement on all per-user resources.
@@ -28,11 +29,12 @@ cd frontend && npm install && npm run dev
 
 Then open **http://localhost:5173**. Log in with the pre-seeded demo account:
 
-| Email | Password |
-|---|---|
+| Email                | Password    |
+| -------------------- | ----------- |
 | `demo@propath.local` | `Passw0rd!` |
 
 ### End-to-end demo flow
+
 1. Open `/` → redirected to `/login` (auth guard working).
 2. Sign in with demo account → Dashboard shows three cards (apps due this week, upcoming events, trending remote jobs from RemoteOK).
 3. Navigate to **Applications** → see the 3 seeded applications sorted by urgency.
@@ -61,17 +63,22 @@ Then open **http://localhost:5173**. Log in with the pre-seeded demo account:
 
 ### Milestone 3 documentation
 
-| Artifact | File |
-|---|---|
-| Endpoint table (with auth column) | [docs/endpoints.md](docs/endpoints.md) |
-| ERD (Mermaid) | [docs/erd.md](docs/erd.md) |
-| Example request/response JSON | [docs/api-examples.md](docs/api-examples.md) |
-| AI usage log (all milestones) | [docs/ProPath-Milestone-Document.md §5.2](docs/ProPath-Milestone-Document.md#52-ai-usage-log-appendix) |
+| Artifact                          | File                                                                                                   |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Endpoint table (with auth column) | [docs/endpoints.md](docs/endpoints.md)                                                                 |
+| ERD (Mermaid)                     | [docs/erd.md](docs/erd.md)                                                                             |
+| Example request/response JSON     | [docs/api-examples.md](docs/api-examples.md)                                                           |
+| AI usage log (all milestones)     | [docs/ProPath-Milestone-Document.md §5.2](docs/ProPath-Milestone-Document.md#52-ai-usage-log-appendix) |
 
 ### Security notes (known tradeoffs for this milestone)
+
 - JWT is stored in browser `localStorage`. This is the standard student-SPA pattern and is XSS-vulnerable; a production deployment should migrate to an `httpOnly` cookie with CSRF protection.
 - JWT secret is loaded from the `JWT_SECRET` environment variable with a dev-only default in [application.properties](backend/src/main/resources/application.properties). Override it for any non-local environment.
 - H2 console remains enabled on `/h2-console` for grader inspection; disable in production.
+
+## Demo Video milestone 3
+
+[Demo Video](https://youtu.be/8M7t6lzVS9s)
 
 ## Backend (Spring Boot 3.3.5, Java 17)
 
@@ -102,10 +109,10 @@ Environment (`.env.development`): `VITE_API_BASE_URL=http://localhost:8080`.
 
 ## Background docs
 
-| Path | Description |
-|---|---|
+| Path                                                                     | Description                         |
+| ------------------------------------------------------------------------ | ----------------------------------- |
 | [docs/ProPath-Milestone-Document.md](docs/ProPath-Milestone-Document.md) | Original proposal and system design |
-| [docs/product-backlog.md](docs/product-backlog.md) | Prioritized user stories |
-| [docs/sprint1-plan.md](docs/sprint1-plan.md) | Sprint 1 plan (backend foundation) |
-| [docs/wireframes/](docs/wireframes/) | Wireframes (Figures 1–4) |
-| [docs/diagrams/](docs/diagrams/) | DFD and architecture SVGs |
+| [docs/product-backlog.md](docs/product-backlog.md)                       | Prioritized user stories            |
+| [docs/sprint1-plan.md](docs/sprint1-plan.md)                             | Sprint 1 plan (backend foundation)  |
+| [docs/wireframes/](docs/wireframes/)                                     | Wireframes (Figures 1–4)            |
+| [docs/diagrams/](docs/diagrams/)                                         | DFD and architecture SVGs           |

@@ -1,6 +1,6 @@
 # Milestone 3 — Entity–Relationship Diagram
 
-FocusFlow persists three entities in a file-based H2 database (`jdbc:h2:file:./data/propath`). Schema is derived from JPA annotations via Hibernate (`spring.jpa.hibernate.ddl-auto=update`).
+ProPath persists three entities in a file-based H2 database (`jdbc:h2:file:./data/propath`). Schema is derived from JPA annotations via Hibernate (`spring.jpa.hibernate.ddl-auto=update`).
 
 ```mermaid
 erDiagram
