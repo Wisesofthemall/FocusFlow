@@ -33,7 +33,7 @@ export function LoginPage() {
     <div className={styles.wrap}>
       <div className={styles.card}>
         <h1 className={styles.heading}>Welcome back</h1>
-        <p className={styles.sub}>Sign in to your FocusFlow account.</p>
+        <p className={styles.sub}>Sign in to your ProPath account.</p>
         <ErrorBanner message={error} />
         <form onSubmit={onSubmit} className={styles.form}>
           <div>
