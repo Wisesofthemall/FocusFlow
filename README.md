@@ -129,6 +129,66 @@ Screenshots captured during this milestone live in [docs/test-evidence/screensho
 
 **What I would refactor next.** Extract a `JobApplicationResponse` DTO so the entity stops leaking through the API; add a confirmation modal before destructive actions; add Vitest's `coverage.include` to honestly report coverage across the whole `src/` tree. The coverage report ([frontendtest.png](docs/test-evidence/screenshots/frontendtest.png)) shows 62.92% statements / 46.34% branches — but only across files actually imported by tests. `StatusBadge.tsx` doesn't even appear in the table, which means the real coverage number is lower than it looks. That gap between "what the tool says" and "what's actually covered" is itself a testing lesson: green checkmarks don't equal comprehensive testing unless you configure the tool to be honest with you. The biggest takeaway: tests that are *easy* to write usually mean the code is well-structured; tests that fight you (mocking gymnastics, async flakiness) are pointing at design smells worth fixing rather than papering over.
 
+## Milestone 5 — Final Presentation, Reflection & Team Report
+
+The final milestone consolidates everything into a 7-minute team presentation and the written reflection / team-report deliverables.
+
+### Submission deliverables
+
+| Deliverable                  | File / link                                                                                          |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Final repository                 | [github.com/Wisesofthemall/FocusFlow](https://github.com/Wisesofthemall/FocusFlow)                   |
+| Slides / recording               | _Add link here before submission_                                                                    |
+| Team summary report              | [docs/team-summary-report.pdf](docs/team-summary-report.pdf)                                         |
+| Individual reflection — Lovinson | [docs/reflection-lovinson.pdf](docs/reflection-lovinson.pdf)                                         |
+| Individual reflection — Malcolm  | [docs/reflection-malcolm.pdf](docs/reflection-malcolm.pdf)                                           |
+| AI usage log (appendix)          | [docs/ProPath-Milestone-Document.md §5.2](docs/ProPath-Milestone-Document.md#52-ai-usage-log-appendix) |
+| Milestone 3 demo video           | [youtu.be/8M7t6lzVS9s](https://youtu.be/8M7t6lzVS9s)                                                 |
+
+### 7-minute presentation outline
+
+| # | Segment                                       | Time  | Notes                                                                                       |
+| - | --------------------------------------------- | ----- | ------------------------------------------------------------------------------------------- |
+| 1 | Problem & solution                            | ~1 min | Job-search fragmentation; ProPath as one dashboard for applications + schedule context.    |
+| 2 | Live demo — login, CRUD, external API         | ~3 min | Sign in as `demo@propath.local` → dashboard cards → create application → restart-and-refresh persistence proof → trending RemoteOK jobs. |
+| 3 | Architecture summary                          | ~1 min | React (Vite) → Spring Boot REST → file-based H2; JWT auth; RemoteOK proxy via `WebClient`.  |
+| 4 | Major technical challenge & solution          | ~1 min | Ownership-leak refactor (see below).                                                        |
+| 5 | Lessons learned & future plans                | ~1 min | Tests-as-design-feedback; punch list (confirm-delete, empty state, response DTO, httpOnly cookie). |
+
+### Major technical challenge & solution
+
+**Challenge.** The first cut of the application API took `userId` as a path variable: `GET /api/users/{userId}/applications/{id}`. Any authenticated user could change `{userId}` to someone else's ID and read or modify their applications. Two ownership leaks (read and delete) were live in the codebase before this was caught.
+
+**Solution.** Refactored every per-user endpoint to derive `userId` from the authenticated principal in `SecurityContextHolder` rather than from the URL. Path variables now identify only the resource (the `/{id}` part); a server-side ownership check rejects any mismatch with 403. The fix is in commit [82a0bc5](https://github.com/Wisesofthemall/FocusFlow/commit/82a0bc5) — *"refactor(backend): derive userId from JWT principal, fix two ownership leaks"*.
+
+**Why it matters.** This is the kind of bug that passes manual testing (every developer logs in as themselves, so the ID always matches) and only fails when a hostile user actually tries to read another user's data. Verifying the fix required driving JUnit tests through a real `register → capture JWT → use Bearer token` flow rather than `@WithMockUser`, because mocking the security context would have skipped the very `JwtAuthenticationFilter` that enforces ownership. The 5 backend tests passing in [backendtest.png](docs/test-evidence/screenshots/backendtest.png) are honest end-to-end proof, not a green checkmark on mocked-out code.
+
+### Lessons learned
+
+1. **Tests are design feedback, not a tax.** Hard-to-write tests pointed at design smells we'd never have spotted otherwise — the entity-as-response leak in `JobApplicationController`, and the `AuthContext` hydration race in `ProtectedRoute`. Easy tests usually mean well-structured code; tests that fight you are pointing somewhere worth fixing.
+2. **Document tradeoffs honestly.** The "known tradeoffs" section (JWT in `localStorage`, file-based H2 over Postgres, H2 console enabled in dev) is more valuable than pretending we shipped a hardened production system. A reviewer can see what we knew, what we deferred, and why.
+3. **AI is a planning aid, not an author.** Logging every AI session in [§5.2](docs/ProPath-Milestone-Document.md#52-ai-usage-log-appendix) — prompt, purpose, and how the output influenced the work — makes the line between "Claude helped me think" and "Claude wrote the code" inspectable. If a session isn't in the log, it didn't happen.
+4. **Peer testing finds bugs automation cannot.** Three peer-testing sessions surfaced two real issues — a confusing empty state on `/applications` and an unconfirmed delete button — that no Vitest or JUnit suite would ever flag. Real users are still the most expensive and most useful test fixture we have.
+
+### Future plans
+
+Ordered by cost-of-not-fixing, not difficulty:
+
+1. **Confirmation modal before destructive actions.** Cheap fix; real harm if skipped (one peer triggered an accidental delete).
+2. **Empty-state CTA on `/applications`.** Onboarding fix for new users; the current empty panel doesn't tell first-timers what to click.
+3. **`JobApplicationResponse` DTO.** Stop leaking the JPA entity through the API; the asymmetry between request DTOs and entity-as-response was visible the moment we wrote field-level test assertions.
+4. **Migrate JWT from `localStorage` → `httpOnly` cookie + CSRF protection.** Documented as a known tradeoff; the right next step once milestone scope no longer constrains us.
+5. **Honest coverage reporting.** Configure Vitest's `coverage.include` so the report covers the whole `src/` tree, not just files imported by tests. The headline 62.92% number is overstated.
+6. **Google Calendar OAuth.** Originally the planned external API; deferred to RemoteOK for Milestone 3 scope. The obvious feature direction for v2.
+7. **Postgres + managed secrets** for any non-local deployment; disable the H2 console outside dev.
+
+### Acknowledgments
+
+- **Course staff** — for the milestone cadence (Sprint 1 → Milestone 3 → Milestone 4 → Milestone 5) that forced us to ship the smallest demonstrable version of each capability rather than batch everything to the end.
+- **Peer reviewers** — three peer-testing sessions surfaced two real harm-reduction issues (empty state, unconfirmed delete) that no automated test would have caught.
+- **Open-source projects** — Spring Boot, React, Vite, TypeScript, Vitest, RTL, JUnit 5, H2, RemoteOK's public jobs feed.
+- **AI tools (planning aid only).** ChatGPT and Claude (Opus 4.7) were used for ideation, architecture planning, and a best-practices audit, all logged in [§5.2](docs/ProPath-Milestone-Document.md#52-ai-usage-log-appendix). No code in the repository was generated by AI; every Java class, React component, config, test, and doc was authored, reviewed, and committed by BlackCS members.
+
 ## Backend (Spring Boot 3.3.5, Java 17)
 
 The API lives in [`backend/`](backend/).
@@ -158,10 +218,13 @@ Environment (`.env.development`): `VITE_API_BASE_URL=http://localhost:8080`.
 
 ## Background docs
 
-| Path                                                                     | Description                         |
-| ------------------------------------------------------------------------ | ----------------------------------- |
-| [docs/ProPath-Milestone-Document.md](docs/ProPath-Milestone-Document.md) | Original proposal and system design |
-| [docs/product-backlog.md](docs/product-backlog.md)                       | Prioritized user stories            |
-| [docs/sprint1-plan.md](docs/sprint1-plan.md)                             | Sprint 1 plan (backend foundation)  |
-| [docs/wireframes/](docs/wireframes/)                                     | Wireframes (Figures 1–4)            |
-| [docs/diagrams/](docs/diagrams/)                                         | DFD and architecture SVGs           |
+| Path                                                                     | Description                                |
+| ------------------------------------------------------------------------ | ------------------------------------------ |
+| [docs/ProPath-Milestone-Document.md](docs/ProPath-Milestone-Document.md) | Original proposal and system design        |
+| [docs/product-backlog.md](docs/product-backlog.md)                       | Prioritized user stories                   |
+| [docs/sprint1-plan.md](docs/sprint1-plan.md)                             | Sprint 1 plan (backend foundation)         |
+| [docs/wireframes/](docs/wireframes/)                                     | Wireframes (Figures 1–4)                   |
+| [docs/diagrams/](docs/diagrams/)                                         | DFD and architecture SVGs                  |
+| [docs/team-summary-report.pdf](docs/team-summary-report.pdf)             | Milestone 5 — team summary report          |
+| [docs/reflection-lovinson.pdf](docs/reflection-lovinson.pdf)             | Milestone 5 — Lovinson's reflection        |
+| [docs/reflection-malcolm.pdf](docs/reflection-malcolm.pdf)               | Milestone 5 — Malcolm's reflection         |
