@@ -1,6 +1,6 @@
 # Sprint 1 — backend foundation (1 week)
 
-**Team:** BlackCS (Lovinson Dieujuste, Malcolm Richards, Terrance Holloway)  
+**Team:** BlackCS (Lovinson Dieujuste, Malcolm Richards)  
 **Goal:** Implement Spring Boot domain models, Spring Data repository interfaces, service-layer operations, and REST endpoints (no production database; in-memory H2 for local development).  
 **Sprint dates (example):** align with your course calendar.
 
@@ -8,9 +8,9 @@
 
 | # | Backlog item (summary) | Primary owner |
 | - | ---------------------- | ------------- |
-| 1 | **User account model & user API** — register, read, update profile, delete; `UserRepository`, `UserService`, `/api/users` | Terrance Holloway |
+| 1 | **User account model & user API** — register, read, update profile, delete; `UserRepository`, `UserService`, `/api/users` | Malcolm Richards |
 | 2 | **Job application model & application API** — CRUD-style flows; `JobApplicationRepository`, `ApplicationService`, `/api/.../applications` | Malcolm Richards |
-| 3 | **Calendar event model & events API** — create/read/update/delete; `CalendarEventRepository`, `CalendarEventService`, `/api/.../calendar-events` | Terrance Holloway |
+| 3 | **Calendar event model & events API** — create/read/update/delete; `CalendarEventRepository`, `CalendarEventService`, `/api/.../calendar-events` | Lovinson Dieujuste |
 | 4 | **Dashboard aggregation stub** — `DashboardDataService` + `/api/users/{id}/dashboard` combining applications due in a window and events in a window | Malcolm Richards |
 | 5 | **Documentation & API contract notes** — product backlog, this sprint plan, README backend runbook, review PRs for consistency with milestone entities | Lovinson Dieujuste |
 
@@ -39,7 +39,6 @@ Every member owns **at least one** feature above. Split subtasks (e.g. tests, ex
 | ------ | ---------------------- | --------------------------- |
 | Lovinson Dieujuste | ☐ | |
 | Malcolm Richards | ☐ | |
-| Terrance Holloway | ☐ | |
 
 ## AI usage
 

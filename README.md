@@ -2,7 +2,7 @@
 
 **Career preparation & professional development** — semester project built with React, Spring Boot, file-based H2, and a public jobs API.
 
-**Team:** BlackCS — Lovinson Dieujuste, Malcolm Richards, Terrance Holloway
+**Team:** BlackCS — Lovinson Dieujuste, Malcolm Richards
 
 **Repository:** [github.com/Wisesofthemall/FocusFlow](https://github.com/Wisesofthemall/FocusFlow)
 

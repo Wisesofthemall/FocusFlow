@@ -237,9 +237,8 @@ Low-fidelity wireframes for core screens. Reference as **Figure 1–4** in prese
 
 | Member name (BlackCS)   | Responsibility                                              |
 | ----------------------- | ----------------------------------------------------------- |
-| Lovinson Dieujuste      | Frontend (React), UI states, API client, demo polish        |
-| Malcolm Richards        | Backend (Spring Boot), authentication, application REST APIs |
-| Terrance Holloway       | Database schema, migrations, JPA entities; Google Calendar OAuth and integration; security review; diagrams and wireframes |
+| Lovinson Dieujuste      | Frontend (React), UI states, API client, demo polish; database schema and JPA entities; diagrams and wireframes |
+| Malcolm Richards        | Backend (Spring Boot), authentication, application REST APIs; security review |
 
 ### 7.2 Collaboration & repository
 
