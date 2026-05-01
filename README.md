@@ -232,3 +232,4 @@ Environment (`.env.development`): `VITE_API_BASE_URL=http://localhost:8080`.
 | [docs/team-summary-report.pdf](docs/team-summary-report.pdf)             | Milestone 5 — team summary report          |
 | [docs/reflection-lovinson.pdf](docs/reflection-lovinson.pdf)             | Milestone 5 — Lovinson's reflection        |
 | [docs/reflection-malcolm.pdf](docs/reflection-malcolm.pdf)               | Milestone 5 — Malcolm's reflection         |
+| [youtu.be/4ZjV88uo7Fk](https://youtu.be/4ZjV88uo7Fk)                     | Milestone 5 — final demo video             |
