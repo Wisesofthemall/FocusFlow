@@ -129,6 +129,10 @@ Screenshots captured during this milestone live in [docs/test-evidence/screensho
 
 **What I would refactor next.** Extract a `JobApplicationResponse` DTO so the entity stops leaking through the API; add a confirmation modal before destructive actions; add Vitest's `coverage.include` to honestly report coverage across the whole `src/` tree. The coverage report ([frontendtest.png](docs/test-evidence/screenshots/frontendtest.png)) shows 62.92% statements / 46.34% branches — but only across files actually imported by tests. `StatusBadge.tsx` doesn't even appear in the table, which means the real coverage number is lower than it looks. That gap between "what the tool says" and "what's actually covered" is itself a testing lesson: green checkmarks don't equal comprehensive testing unless you configure the tool to be honest with you. The biggest takeaway: tests that are *easy* to write usually mean the code is well-structured; tests that fight you (mocking gymnastics, async flakiness) are pointing at design smells worth fixing rather than papering over.
 
+## Demo Video milestone 5
+
+[Final Demo Video](https://youtu.be/4ZjV88uo7Fk)
+
 ## Milestone 5 — Final Presentation, Reflection & Team Report
 
 The final milestone consolidates everything into a 7-minute team presentation and the written reflection / team-report deliverables.
@@ -138,7 +142,7 @@ The final milestone consolidates everything into a 7-minute team presentation an
 | Deliverable                  | File / link                                                                                          |
 | ---------------------------- | ---------------------------------------------------------------------------------------------------- |
 | Final repository                 | [github.com/Wisesofthemall/FocusFlow](https://github.com/Wisesofthemall/FocusFlow)                   |
-| Slides / recording               | _Add link here before submission_                                                                    |
+| Milestone 5 final demo video     | [youtu.be/4ZjV88uo7Fk](https://youtu.be/4ZjV88uo7Fk)                                                 |
 | Team summary report              | [docs/team-summary-report.pdf](docs/team-summary-report.pdf)                                         |
 | Individual reflection — Lovinson | [docs/reflection-lovinson.pdf](docs/reflection-lovinson.pdf)                                         |
 | Individual reflection — Malcolm  | [docs/reflection-malcolm.pdf](docs/reflection-malcolm.pdf)                                           |
